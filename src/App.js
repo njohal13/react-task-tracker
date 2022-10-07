@@ -6,14 +6,23 @@ function App() {
   const [showAddTask, setShowAddTask] = useState(false)
   const [tasks, setTasks] = useState([])
 
+  //useEffect hook
+  //On page reload fetch the data in port 5000/tasks
   useEffect(() => {
-    const fetchTasks = async () => {
-      const res = await fetch('http://localhost:5000/tasks')
-      const data = await res.json()
-      console.log(data)
-
+    const getTasks = async () => {
+      const tasksFromServer = await fetchTasks()
+      setTasks(tasksFromServer)
     }
-  })
+    getTasks()
+  }, [])
+
+  //Fetch Tasks
+  const fetchTasks = async () => {
+    const res = await fetch('http://localhost:5000/tasks')
+    const data = await res.json()
+    
+    return data
+  }
 
 //Add Task
 const addTask = (task) => {
